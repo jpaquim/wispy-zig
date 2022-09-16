@@ -1,4 +1,5 @@
 const std = @import("std");
+const compile = @import("./compiler.zig").compile;
 const lex = @import("./lexer.zig").lex;
 const parse = @import("./parser.zig").parse;
 
@@ -34,8 +35,26 @@ pub fn main() !void {
 
     const ast = try parse(allocator, tokens.items);
 
-    const ast_json = try std.json.stringifyAlloc(allocator, ast, .{ .whitespace = .{ .indent = .{ .Space = 2 } } });
-    defer allocator.free(ast_json);
+    // const ast_json = try std.json.stringifyAlloc(allocator, ast, .{ .whitespace = .{ .indent = .{ .Space = 2 } } });
+    // defer allocator.free(ast_json);
 
-    std.debug.print("{s}\n", .{ast_json});
+    // std.debug.print("{s}\n", .{ast_json});
+
+    const mod = compile(allocator, ast.block) catch {
+        std.debug.print("Compiler error, exiting\n", .{});
+        std.process.exit(1);
+    };
+
+    mod.print();
+
+    const binary = try mod.writeAlloc(allocator, null);
+
+    std.debug.print("{any}\n", .{binary});
+
+    // const compiled = new WebAssembly.Module(binary);
+
+    // const instance = new WebAssembly.Instance(compiled, {});
+
+    // console.log((instance.exports.main as () => number)());
+
 }

@@ -48,7 +48,7 @@ pub const AstNode = union(enum) {
                 try jsw.objectField("expressions");
                 try std.json.stringify(block.expressions, .{ .whitespace = jsw.whitespace }, w);
                 jsw.state_index -= 1;
-            }
+            },
         }
 
         try jsw.endObject();

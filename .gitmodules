@@ -1,3 +1,6 @@
 [submodule "fizzy-zig"]
 	path = fizzy-zig
 	url = https://github.com/jpaquim/fizzy-zig
+[submodule "binaryen-zig"]
+	path = binaryen-zig
+	url = https://github.com/jpaquim/binaryen-zig

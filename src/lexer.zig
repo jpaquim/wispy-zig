@@ -37,7 +37,7 @@ fn consumeNextWord(chars: []const u8, next_index: *usize) ?[]const u8 {
         if (isTerminatorToken(char) and token != null) break;
 
         if (token) |*tok|
-            tok.len += 1
+            tok.*.len += 1
         else
             token = chars[i .. i + 1];
         i += 1;
@@ -45,7 +45,7 @@ fn consumeNextWord(chars: []const u8, next_index: *usize) ?[]const u8 {
         if (isTerminatorToken(char)) break;
     }
 
-    next_index.* = next_index.* + i;
+    next_index.* += i;
 
     return token;
 }
