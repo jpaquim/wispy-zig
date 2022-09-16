@@ -1,0 +1,3 @@
+[submodule "fizzy-zig"]
+	path = fizzy-zig
+	url = https://github.com/jpaquim/fizzy-zig
