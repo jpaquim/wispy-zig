@@ -1,5 +1,6 @@
 const std = @import("std");
 const lex = @import("./lexer.zig").lex;
+const parse = @import("./parser.zig").parse;
 
 const max_file_size = std.math.maxInt(usize);
 
@@ -26,8 +27,15 @@ pub fn main() !void {
     const tokens = try lex(allocator, input);
     defer tokens.deinit();
 
-    const tokens_json = try std.json.stringifyAlloc(allocator, tokens.items, .{ .whitespace = .{ .indent = .{ .Space = 2 } }});
-    defer allocator.free(tokens_json);
+    // const tokens_json = try std.json.stringifyAlloc(allocator, tokens.items, .{ .whitespace = .{ .indent = .{ .Space = 2 } } });
+    // defer allocator.free(tokens_json);
 
-    std.debug.print("{s}\n", .{tokens_json});
+    // std.debug.print("{s}\n", .{tokens_json});
+
+    const ast = try parse(allocator, tokens.items);
+
+    const ast_json = try std.json.stringifyAlloc(allocator, ast, .{ .whitespace = .{ .indent = .{ .Space = 2 } } });
+    defer allocator.free(ast_json);
+
+    std.debug.print("{s}\n", .{ast_json});
 }
